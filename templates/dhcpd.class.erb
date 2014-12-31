@@ -1,0 +1,11 @@
+<% if @comment -%>
+# <%= @comment %>
+<% end -%>
+class "<%= @name %>" {
+<% if @parameters -%>
+<% @parameters.each do |p| -%>
+  <%= p %>;
+<% end -%>
+<% end -%>
+}
+

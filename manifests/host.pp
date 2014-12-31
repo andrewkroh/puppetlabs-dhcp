@@ -1,10 +1,12 @@
 define dhcp::host (
-  $ip,
   $mac,
-  $comment=''
+  $ip       = undef,
+  $comment  = undef,
+  $subclass = undef,
 ) {
+  
+  validate_re($mac, '^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$')
 
-  $host = $name
   include dhcp::params
 
   $dhcp_dir = $dhcp::params::dhcp_dir
@@ -14,5 +16,13 @@ define dhcp::host (
     content => template('dhcp/dhcpd.host.erb'),
     order   => '10',
   }
+
+  # Add a dependency on the DHCP class.
+  if $subclass {
+    Concat::Fragment["dhcp_host_${name}"] {
+      require => Dhcp::Class[$subclass],
+    }
+  }
+
 }
 

@@ -1,5 +1,22 @@
-host <%= @host %> {
-  hardware ethernet   <%= @mac %>;
-  fixed-address       <%= @ip %>;
+<% if @comment -%>
+# <%= @comment %>
+<% end -%>
+host <%= @name %> {
+  hardware ethernet   <%= @mac.downcase %>;
   option host-name    "<%= @name %>";
+<% if @ip -%>
+<% if @ip.is_a? Array -%>
+  fixed-address       <%= @ip.join(", ") %>;
+<% else -%>
+  fixed-address       <%= @ip %>;
+<% end -%>
+<% else -%>
+  ddns-hostname       "<%= @name %>";
+<% end -%>
 }
+<% if @subclass -%>
+<% @subclass.each do |s| -%>
+subclass "<%= s %>" 1:<%= @mac.downcase %>;
+<% end -%>
+<% end -%>
+

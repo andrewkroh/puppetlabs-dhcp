@@ -1,6 +1,7 @@
 define dhcp::pool (
   $network,
   $mask,
+  $pool        = undef,
   $gateway     = '',
   $range       = '',
   $failover    = '',

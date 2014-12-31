@@ -161,7 +161,7 @@ class dhcp (
   concat::fragment { 'dhcp-hosts-header':
     target  => "${dhcp_dir}/dhcpd.hosts",
     content => "# static DHCP hosts\n",
-    order   => '01',
+    order   => '06',
   }
 
   service { $servicename:
